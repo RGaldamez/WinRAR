@@ -11,4 +11,8 @@ package winrar;
  */
 public class HeapTree {
     
+   private Node root;
+   
+   
+    
 }
