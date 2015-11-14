@@ -6,6 +6,8 @@
 package winrar;
 
 import java.awt.event.KeyEvent;
+import java.io.File;
+import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
 
@@ -43,6 +45,7 @@ public class Console extends javax.swing.JFrame {
         jt_comando = new javax.swing.JTextField();
         jb_enter = new javax.swing.JButton();
         jb_listaComandos = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
 
         jl_listaComandos.setTitle("HELP");
         jl_listaComandos.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -113,6 +116,13 @@ public class Console extends javax.swing.JFrame {
             }
         });
 
+        jButton1.setText("Testing directories in /home/rick (modify later)");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -127,6 +137,8 @@ public class Console extends javax.swing.JFrame {
                         .addComponent(jb_listaComandos)
                         .addGap(44, 44, 44)
                         .addComponent(jb_enter, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(61, 61, 61)
+                        .addComponent(jButton1)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -142,7 +154,8 @@ public class Console extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jb_enter)
-                    .addComponent(jb_listaComandos))
+                    .addComponent(jb_listaComandos)
+                    .addComponent(jButton1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -163,6 +176,18 @@ public class Console extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Funka", "El evento funka", JOptionPane.INFORMATION_MESSAGE);
         }
     }//GEN-LAST:event_jt_comandoKeyPressed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        DefaultListModel model = new DefaultListModel();
+        
+        File files [] = directory.listFiles();
+        for (File file: files) {
+            model.addElement(file.getName());
+        }
+        this.jl_directorio.setModel(model);
+        
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -208,6 +233,7 @@ public class Console extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton jButton1;
     private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
@@ -219,4 +245,7 @@ public class Console extends javax.swing.JFrame {
     private javax.swing.JTextField jt_comando;
     private javax.swing.JTextField jt_direccion;
     // End of variables declaration//GEN-END:variables
+    private File directory = new File("//home//rick"); 
+
+
 }
