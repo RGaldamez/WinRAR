@@ -2,12 +2,12 @@
 
 <Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
-    <Container class="javax.swing.JDialog" name="ListaComandos">
+    <Container class="javax.swing.JDialog" name="jl_listaComandos">
       <Properties>
         <Property name="title" type="java.lang.String" value="HELP"/>
       </Properties>
       <Events>
-        <EventHandler event="windowClosing" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="ListaComandosWindowClosing"/>
+        <EventHandler event="windowClosing" listener="java.awt.event.WindowListener" parameters="java.awt.event.WindowEvent" handler="jl_listaComandosWindowClosing"/>
       </Events>
 
       <Layout>
@@ -15,7 +15,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane2" pref="513" max="32767" attributes="0"/>
+                  <Component id="jScrollPane2" pref="489" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -24,7 +24,7 @@
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
-                  <Component id="jScrollPane2" pref="316" max="32767" attributes="0"/>
+                  <Component id="jScrollPane2" pref="337" max="32767" attributes="0"/>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
           </Group>
@@ -41,7 +41,7 @@
             <Component class="javax.swing.JList" name="jList1">
               <Properties>
                 <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-                  <StringArray count="15">
+                  <StringArray count="18">
                     <StringItem index="0" value="cd &lt;folder name&gt;: cambiara la ruta actual de la consola a la del folder."/>
                     <StringItem index="1" value="Ejemplo:"/>
                     <StringItem index="2" value="cd Desktop"/>
@@ -54,9 +54,12 @@
                     <StringItem index="9" value="Ejemplo:"/>
                     <StringItem index="10" value="compress &lt;texto.hff&gt; &lt;1&gt; | &lt;texto2.hff&gt; &lt;2&gt; |&lt;texto3.hff&gt; &lt;3&gt;"/>
                     <StringItem index="11" value=" "/>
-                    <StringItem index="12" value="decompress &lt;filename.hff&gt; &lt;prioridad&gt; | ... | &lt;filename.hff&gt; &lt;prioridad&gt;:"/>
+                    <StringItem index="12" value="decompress &lt;filename.txt&gt; &lt;prioridad&gt; | ... | &lt;filename.txt&gt; &lt;prioridad&gt;:"/>
                     <StringItem index="13" value="Ejemplo:"/>
-                    <StringItem index="14" value="decompress &lt;texto.hff&gt; &lt;1&gt; | &lt;texto2.hff&gt; &lt;2&gt; | &lt;texto3.hff&gt; &lt;3&gt;"/>
+                    <StringItem index="14" value="decompress &lt;texto.txt&gt; &lt;1&gt; | &lt;texto2.txt&gt; &lt;2&gt; | &lt;texto3.txt&gt; &lt;3&gt;"/>
+                    <StringItem index="15" value=" "/>
+                    <StringItem index="16" value="diff &lt;filename.txt&gt;: mostrara una venta de comparacion entre "/>
+                    <StringItem index="17" value="el archivo comprimido y el archivo original."/>
                   </StringArray>
                 </Property>
               </Properties>
@@ -64,6 +67,21 @@
           </SubComponents>
         </Container>
       </SubComponents>
+    </Container>
+    <Container class="javax.swing.JDialog" name="jd_comparacion">
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="400" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <EmptySpace min="0" pref="300" max="32767" attributes="0"/>
+          </Group>
+        </DimensionLayout>
+      </Layout>
     </Container>
   </NonVisualComponents>
   <Properties>
@@ -152,6 +170,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="Aqui va el comando que se ingresa en la consola (ajustar para que se pueda apretar enter para enviar el comando)"/>
       </Properties>
+      <Events>
+        <EventHandler event="keyPressed" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="jt_comandoKeyPressed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="jb_enter">
       <Properties>

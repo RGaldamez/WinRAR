@@ -5,7 +5,9 @@
  */
 package winrar;
 
+import java.awt.event.KeyEvent;
 import javax.swing.JDialog;
+import javax.swing.JOptionPane;
 
 /**
  *
@@ -31,9 +33,10 @@ public class Console extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        ListaComandos = new javax.swing.JDialog();
+        jl_listaComandos = new javax.swing.JDialog();
         jScrollPane2 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
+        jd_comparacion = new javax.swing.JDialog();
         jt_direccion = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jl_directorio = new javax.swing.JList();
@@ -41,35 +44,46 @@ public class Console extends javax.swing.JFrame {
         jb_enter = new javax.swing.JButton();
         jb_listaComandos = new javax.swing.JButton();
 
-        ListaComandos.setTitle("HELP");
-        ListaComandos.addWindowListener(new java.awt.event.WindowAdapter() {
+        jl_listaComandos.setTitle("HELP");
+        jl_listaComandos.addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
-                ListaComandosWindowClosing(evt);
+                jl_listaComandosWindowClosing(evt);
             }
         });
 
         jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "cd <folder name>: cambiara la ruta actual de la consola a la del folder.", "Ejemplo:", "cd Desktop", " ", "ls: listara los archivos y directorios de la carpeta actual.", " ", "compress <filename.txt> <prioridad> | ... | <filename.txt> <priodidad>:", "comprimira los archivos seleccionados en el orden de prioridad especificado;", "como resultado se tendra un archivo de salida con extension hff.", "Ejemplo:", "compress <texto.hff> <1> | <texto2.hff> <2> |<texto3.hff> <3>", " ", "decompress <filename.hff> <prioridad> | ... | <filename.hff> <prioridad>:", "Ejemplo:", "decompress <texto.hff> <1> | <texto2.hff> <2> | <texto3.hff> <3>" };
+            String[] strings = { "cd <folder name>: cambiara la ruta actual de la consola a la del folder.", "Ejemplo:", "cd Desktop", " ", "ls: listara los archivos y directorios de la carpeta actual.", " ", "compress <filename.txt> <prioridad> | ... | <filename.txt> <priodidad>:", "comprimira los archivos seleccionados en el orden de prioridad especificado;", "como resultado se tendra un archivo de salida con extension hff.", "Ejemplo:", "compress <texto.hff> <1> | <texto2.hff> <2> |<texto3.hff> <3>", " ", "decompress <filename.txt> <prioridad> | ... | <filename.txt> <prioridad>:", "Ejemplo:", "decompress <texto.txt> <1> | <texto2.txt> <2> | <texto3.txt> <3>", " ", "diff <filename.txt>: mostrara una venta de comparacion entre ", "el archivo comprimido y el archivo original." };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
         jScrollPane2.setViewportView(jList1);
 
-        javax.swing.GroupLayout ListaComandosLayout = new javax.swing.GroupLayout(ListaComandos.getContentPane());
-        ListaComandos.getContentPane().setLayout(ListaComandosLayout);
-        ListaComandosLayout.setHorizontalGroup(
-            ListaComandosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ListaComandosLayout.createSequentialGroup()
+        javax.swing.GroupLayout jl_listaComandosLayout = new javax.swing.GroupLayout(jl_listaComandos.getContentPane());
+        jl_listaComandos.getContentPane().setLayout(jl_listaComandosLayout);
+        jl_listaComandosLayout.setHorizontalGroup(
+            jl_listaComandosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jl_listaComandosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 513, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 489, Short.MAX_VALUE)
                 .addContainerGap())
         );
-        ListaComandosLayout.setVerticalGroup(
-            ListaComandosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(ListaComandosLayout.createSequentialGroup()
+        jl_listaComandosLayout.setVerticalGroup(
+            jl_listaComandosLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jl_listaComandosLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 316, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 337, Short.MAX_VALUE)
                 .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jd_comparacionLayout = new javax.swing.GroupLayout(jd_comparacion.getContentPane());
+        jd_comparacion.getContentPane().setLayout(jd_comparacionLayout);
+        jd_comparacionLayout.setHorizontalGroup(
+            jd_comparacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 400, Short.MAX_VALUE)
+        );
+        jd_comparacionLayout.setVerticalGroup(
+            jd_comparacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGap(0, 300, Short.MAX_VALUE)
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -84,6 +98,11 @@ public class Console extends javax.swing.JFrame {
         jScrollPane1.setViewportView(jl_directorio);
 
         jt_comando.setText("Aqui va el comando que se ingresa en la consola (ajustar para que se pueda apretar enter para enviar el comando)");
+        jt_comando.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                jt_comandoKeyPressed(evt);
+            }
+        });
 
         jb_enter.setText("Enter");
 
@@ -130,13 +149,20 @@ public class Console extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void ListaComandosWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_ListaComandosWindowClosing
-        this.ListaComandos.dispose();
-    }//GEN-LAST:event_ListaComandosWindowClosing
+    private void jl_listaComandosWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_jl_listaComandosWindowClosing
+        this.jl_listaComandos.dispose();
+    }//GEN-LAST:event_jl_listaComandosWindowClosing
 
     private void jb_listaComandosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jb_listaComandosActionPerformed
-        openDialog(ListaComandos);
+        openDialog(jl_listaComandos);
     }//GEN-LAST:event_jb_listaComandosActionPerformed
+
+    private void jt_comandoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jt_comandoKeyPressed
+        int key = evt.getKeyCode();
+        if (key == KeyEvent.VK_ENTER){
+            JOptionPane.showMessageDialog(this, "Funka", "El evento funka", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }//GEN-LAST:event_jt_comandoKeyPressed
 
     /**
      * @param args the command line arguments
@@ -182,13 +208,14 @@ public class Console extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JDialog ListaComandos;
     private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JButton jb_enter;
     private javax.swing.JButton jb_listaComandos;
+    private javax.swing.JDialog jd_comparacion;
     private javax.swing.JList jl_directorio;
+    private javax.swing.JDialog jl_listaComandos;
     private javax.swing.JTextField jt_comando;
     private javax.swing.JTextField jt_direccion;
     // End of variables declaration//GEN-END:variables
