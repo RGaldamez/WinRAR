@@ -24,6 +24,9 @@ public class Console extends javax.swing.JFrame {
         
         initComponents();
         this.setLocationRelativeTo(null);
+        this.jt_direccion.setText(directory.getAbsolutePath());
+        this.jt_comando.setText("");
+        this.jl_directorio.setModel(new DefaultListModel());
     }
 
     /**
@@ -172,21 +175,52 @@ public class Console extends javax.swing.JFrame {
 
     private void jt_comandoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jt_comandoKeyPressed
         int key = evt.getKeyCode();
+        String command = jt_comando.getText();
         if (key == KeyEvent.VK_ENTER){
-            JOptionPane.showMessageDialog(this, "Funka", "El evento funka", JOptionPane.INFORMATION_MESSAGE);
+            //JOptionPane.showMessageDialog(this, "Funka", "El evento funka", JOptionPane.INFORMATION_MESSAGE);
+            if (command.equals("ls")){
+                DefaultListModel model = new DefaultListModel();
+
+                File files [] = directory.listFiles();
+                for (File file: files) {
+                    model.addElement(file.getName());
+                }
+                this.jl_directorio.setModel(model);
+                this.jt_comando.setText("");
+            } else if (command.charAt(0)== 'c' || command.charAt(0)== 'd'){
+                List newDirectory = new List();
+                int  arrowPosition = -1;
+                for (int i = 0; i < command.length(); i++) {
+                    if (command.charAt(i)== '<'){
+                        arrowPosition = i;
+                        break;
+                    }
+                }
+                for (int i = 0; i < command.length(); i++) {
+                    if (i> arrowPosition && command.charAt(i)!='>'){
+                        
+                    }else if (command.charAt(i)== '>'){
+                        
+                    }
+                }
+                
+                
+            }
         }
     }//GEN-LAST:event_jt_comandoKeyPressed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        DefaultListModel model = new DefaultListModel();
+
+        if (this.jt_comando.getText().equals("ls")){
+            DefaultListModel model = new DefaultListModel();
         
-        File files [] = directory.listFiles();
-        for (File file: files) {
-            model.addElement(file.getName());
+            File files [] = directory.listFiles();
+            for (File file: files) {
+                model.addElement(file.getName());
+            }
+            this.jl_directorio.setModel(model);
+            this.jt_comando.setText("");
         }
-        this.jl_directorio.setModel(model);
-        
-        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

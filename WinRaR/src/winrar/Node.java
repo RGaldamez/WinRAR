@@ -7,61 +7,42 @@ package winrar;
 
 /**
  *
- * @author rick
+ * @author megarokr
  */
 public class Node {
-    
-    private Node rightChild;
-    private Node leftChild;
-    int value;
 
-    public Node(int value) {
+    public Node(Object value) {
         this.value = value;
-        rightChild = null;
-        leftChild = null;
     }
 
-    public Node getRightChild() {
-        return rightChild;
+    public Node() {
     }
 
-    public void setRightChild(Node rightChild) {
-        this.rightChild = rightChild;
-    }
-
-    public Node getLeftChild() {
-        return leftChild;
-    }
-
-    public void setLeftChild(Node leftChild) {
-        this.leftChild = leftChild;
-    }
-
-    public int getValue() {
+    public Object getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(Object value) {
         this.value = value;
     }
-    
-    public boolean hasRightChild(){
-        if (rightChild == null){
-            return false;
-        }
-        
+
+    public Node getNext() {
+        return next;
+    }
+
+    public void setNext(Node next) {
+        this.next = next;
+    }
+
+    @Override
+    public String toString() {
+        return ""+value;
+    }
+    public boolean hasNext(){
+        if(next != null)
+            return true;
         return false;
     }
-    
-    public boolean hasLeftChild(){
-        if (leftChild == null){
-            return false;
-        }
-        
-        return false;
-    }
-    
-    
-    
-    
+    private Object value;
+    private Node next;
 }

@@ -12,9 +12,9 @@ package winrar;
 public class BinaryTree {
     
     
-    private Node root;
+    private TreeNode root;
 
-    public BinaryTree(Node root) {
+    public BinaryTree(TreeNode root) {
         this.root = root;
     }
 
@@ -22,24 +22,24 @@ public class BinaryTree {
         root = null;
     }
 
-    public Node getRoot() {
+    public TreeNode getRoot() {
         return root;
     }
 
-    public void setRoot(Node root) {
+    public void setRoot(TreeNode root) {
         this.root = root;
     }
     
     public void add(int value) {
         if (value > root.getValue() && !root.hasRightChild()){
-            root.setRightChild(new Node(value));   
+            root.setRightChild(new TreeNode(value));   
             
         }else if (value > root.getValue() && root.hasRightChild()){
             BinaryTree arbolTemp = new BinaryTree(root.getRightChild());
             arbolTemp.add(value);
             
         }else if (value < root.getValue() && !root.hasLeftChild()){
-            root.setLeftChild(new Node(value));
+            root.setLeftChild(new TreeNode(value));
             
         }else if (value < root.getValue() && root.hasLeftChild()){
             BinaryTree arbolTemp = new BinaryTree (root.getLeftChild());
@@ -51,10 +51,10 @@ public class BinaryTree {
                 arbolTemp.add(value);
                 
             }else if (!root.hasLeftChild() && root.hasRightChild()){
-                root.setLeftChild(new Node(value));
+                root.setLeftChild(new TreeNode(value));
                 
             }else if (root.hasLeftChild() && !root.hasRightChild()){
-                root.setRightChild(new Node(value));
+                root.setRightChild(new TreeNode(value));
             }else{
                 // Revisar luego
             }
