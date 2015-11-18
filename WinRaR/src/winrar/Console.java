@@ -94,7 +94,7 @@ public class Console extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jt_direccion.setText("Aqui va la direccion actual del cisco C:");
+        jt_direccion.setText("Aqui va la direccion actual del disco C:");
 
         jl_directorio.setModel(new javax.swing.AbstractListModel() {
             String[] strings = { "Aqui se listan todos los objetos de un directorio" };
@@ -187,24 +187,35 @@ public class Console extends javax.swing.JFrame {
                 }
                 this.jl_directorio.setModel(model);
                 this.jt_comando.setText("");
-            } else if (command.charAt(0)== 'c' || command.charAt(0)== 'd'){
-                List newDirectory = new List();
+            } else if (command.charAt(0)== 'c' || command.charAt(1)== 'd' && command.length()>=2){
+                Stack newDirectory = new Stack();
                 int  arrowPosition = -1;
                 for (int i = 0; i < command.length(); i++) {
                     if (command.charAt(i)== '<'){
-                        arrowPosition = i;
+                        arrowPosition = i-1;
                         break;
                     }
                 }
-                for (int i = 0; i < command.length(); i++) {
-                    if (i> arrowPosition && command.charAt(i)!='>'){
+                for (int i = arrowPosition; i < command.length(); i++) {
+                    if (command.charAt(i)!='>'){
+                        newDirectory.push_back(command.charAt(i));
                         
-                    }else if (command.charAt(i)== '>'){
-                        
+                    }else{
+                        break;
+                    }
+                }
+                String Directory = "";
+                for (int i = 0; i < newDirectory.size(); i++) {
+                    Directory+= (char)newDirectory.pop_back().getValue();
+                }
+                if (Directory.equals("..")){
+                    String[] FinalDirectory = directory.getAbsolutePath().split("/");
+                    for (int i = 0; i < FinalDirectory.length; i++) {
                     }
                 }
                 
-                
+            }else{
+                JOptionPane.showMessageDialog(this, "Comando no existente", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
     }//GEN-LAST:event_jt_comandoKeyPressed
