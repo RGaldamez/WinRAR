@@ -31,7 +31,8 @@ public class BinaryTree {
     }
     
     public void add(int value) {
-        if (value > root.getValue() && !root.hasRightChild()){
+        
+        /*if (value > root.getValue() && !root.hasRightChild()){
             root.setRightChild(new TreeNode(value));   
             
         }else if (value > root.getValue() && root.hasRightChild()){
@@ -58,7 +59,7 @@ public class BinaryTree {
             }else{
                 // Revisar luego
             }
-        }
+        }*/
     }
     
     

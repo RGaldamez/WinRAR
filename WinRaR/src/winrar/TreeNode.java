@@ -13,9 +13,9 @@ public class TreeNode {
     
     private TreeNode rightChild;
     private TreeNode leftChild;
-    int value;
+    Huffman value = new Huffman();
 
-    public TreeNode(int value) {
+    public TreeNode(Huffman value) {
         this.value = value;
         rightChild = null;
         leftChild = null;
@@ -37,11 +37,11 @@ public class TreeNode {
         this.leftChild = leftChild;
     }
 
-    public int getValue() {
+    public Huffman getValue() {
         return value;
     }
 
-    public void setValue(int value) {
+    public void setValue(Huffman value) {
         this.value = value;
     }
     

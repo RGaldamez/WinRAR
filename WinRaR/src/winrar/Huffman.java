@@ -48,6 +48,13 @@ public class Huffman {
         this.frecuency = frecuency;
     }
 
+    @Override
+    public String toString() {
+        return "["+value+"|"+frecuency+"]";
+    }
+    
+    
+
     char value;
     int frecuency;
 }
