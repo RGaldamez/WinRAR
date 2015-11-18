@@ -6,7 +6,12 @@
 package winrar;
 
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
 import javax.swing.JDialog;
 import javax.swing.JOptionPane;
@@ -280,6 +285,18 @@ public class Console extends javax.swing.JFrame {
     public void compress(File file){
         //leer file
         String buffer = "";
+        try {
+            FileReader reader = null;
+            reader = new FileReader(file);
+            BufferedReader buffer_reader = new BufferedReader(reader);
+            String temp;
+            while((temp = buffer_reader.readLine()) != null){
+                buffer += temp;
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Console.class.getName()).log(Level.SEVERE, null, ex);
+        } 
+        
         List huffmen = new List();
         boolean exists;
         for (int i = 0; i < buffer.length(); i++) {
