@@ -295,8 +295,8 @@ public class Console extends javax.swing.JFrame {
             }
         } catch (Exception ex) {
             Logger.getLogger(Console.class.getName()).log(Level.SEVERE, null, ex);
-        } 
-        
+        }
+
         List huffmen = new List();
         boolean exists;
         for (int i = 0; i < buffer.length(); i++) {
@@ -312,7 +312,55 @@ public class Console extends javax.swing.JFrame {
                 huffmen.push_back(new Huffman(buffer.charAt(i)));
             }
         }
-        
+        List nodes = new List();
+        int min = 0;
+        while(huffmen.size() > 0){
+            min = ((Huffman)huffmen.elementAt(0).getValue()).getFrecuency();
+            for(int i = 0; i < huffmen.size(); ++i){
+                if(((Huffman)huffmen.elementAt(i).getValue()).getFrecuency() < min){
+                    min = ((Huffman)huffmen.elementAt(i).getValue()).getFrecuency();
+                }
+            }
+            for(int i = 0; i < huffmen.size(); ++i){
+                if(((Huffman)huffmen.elementAt(i).getValue()).getFrecuency() == min){
+                    nodes.push_back(new TreeNode((Huffman)huffmen.elementAt(i).getValue()));
+                    huffmen.remove(i);
+                }
+            }
+            BinaryTree arbol = new BinaryTree();
+            arbol = llenarArbol(nodes, arbol);
+        }
+
+    }
+    public BinaryTree llenarArbol(List nodes, BinaryTree tree){
+        if(nodes.size() == 2){
+            int suma = ((TreeNode)nodes.elementAt(0).getValue()).getValue().getFrecuency() + ((TreeNode)nodes.elementAt(1).getValue()).getValue().getFrecuency();
+            TreeNode nodo_temp = new TreeNode(new Huffman(suma));
+            nodo_temp.setLeftChild((TreeNode)nodes.elementAt(0).getValue());
+            nodo_temp.setRightChild((TreeNode)nodes.elementAt(1).getValue());
+            tree.setRoot(nodo_temp);
+            nodes = new List();
+            return tree;
+        }
+        else{
+            int suma = ((TreeNode)nodes.elementAt(0).getValue()).getValue().getFrecuency() + ((TreeNode)nodes.elementAt(1).getValue()).getValue().getFrecuency();
+            TreeNode nodo_temp = new TreeNode(new Huffman(suma));
+            nodo_temp.setLeftChild((TreeNode)nodes.elementAt(0).getValue());
+            nodo_temp.setRightChild((TreeNode)nodes.elementAt(1).getValue());
+
+            boolean menor = false;
+            for (int i = 0;i < nodes.size() ;++i ) {
+                if(suma < ((TreeNode)nodes.elementAt(i).getValue()).getValue().getFrecuency()){
+                    nodes.insert(i, nodo_temp);
+                    menor = true;
+                    break;
+                }
+            }
+            if(!menor){
+                nodes.push_back(nodo_temp);
+            }
+            return llenarArbol(nodes,tree);
+        }
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
