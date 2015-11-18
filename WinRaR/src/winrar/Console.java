@@ -276,6 +276,27 @@ public class Console extends javax.swing.JFrame {
         dialog.pack();
         dialog.setVisible(true);
     }
+    
+    public void compress(File file){
+        //leer file
+        String buffer = "";
+        List huffmen = new List();
+        boolean exists;
+        for (int i = 0; i < buffer.length(); i++) {
+            exists = false;
+            for (int j = 0; j < huffmen.size(); j++) {
+                if(((Huffman)huffmen.elementAt(j).getValue()).getValue() == buffer.charAt(i)){
+                    ((Huffman)huffmen.elementAt(j).getValue()).addFrecuency();
+                    exists = true;
+                    break;
+                }
+            }
+            if(!exists){
+                huffmen.push_back(new Huffman(buffer.charAt(i)));
+            }
+        }
+        
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
@@ -290,7 +311,7 @@ public class Console extends javax.swing.JFrame {
     private javax.swing.JTextField jt_comando;
     private javax.swing.JTextField jt_direccion;
     // End of variables declaration//GEN-END:variables
-    private File directory = new File("//home//rick"); 
+    private File directory = new File("//home//megarokr"); 
 
 
 }

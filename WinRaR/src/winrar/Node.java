@@ -43,6 +43,6 @@ public class Node {
             return true;
         return false;
     }
-    private Object value;
-    private Node next;
+    protected Object value;
+    protected Node next;
 }
