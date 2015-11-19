@@ -210,11 +210,10 @@ public class Console extends javax.swing.JFrame {
                         }
                     }
                     for (int i = arrowPosition; i < command.length(); i++) {
-                        if (command.charAt(i)!='>'){
-                            newDirectory.push_back(command.charAt(i));
-
-                        }else{
+                        if (command.charAt(i)=='>'){
                             break;
+                        }else{
+                            newDirectory.push_back(command.charAt(i));
                         }
                     }
                     String Directory = "";
@@ -245,6 +244,22 @@ public class Console extends javax.swing.JFrame {
                         }
                         
                        
+                    }else{
+                        Directory = "";
+                        int contadorDirectorio = 4;
+                        while (command.charAt(contadorDirectorio) != '>'){
+                            Directory+= command.charAt(contadorDirectorio);
+                            contadorDirectorio++;
+                        }
+                        File testFile = new File(directory.getAbsolutePath()+"/"+Directory);
+                        if (testFile.isDirectory() && testFile.exists()){
+                            directory = new File(testFile.getAbsolutePath());
+                            refreshList();
+                        }else{
+                            JOptionPane.showMessageDialog(this, "Directorio no válido", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                        
+                        
                     }
                     
                 }else{
