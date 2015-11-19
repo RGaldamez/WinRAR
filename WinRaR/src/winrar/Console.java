@@ -403,6 +403,37 @@ public class Console extends javax.swing.JFrame {
             return llenarArbol(nodes,tree);
         }
     }
+    
+    public List diccionario(TreeNode node,TreeNode root, List diccionario, String word){
+        if(node.hasLeftChild() && node.getLeftChild().isDone() && node.hasRightChild() && node.getRightChild().isDone()){
+            if(node == root){
+                return diccionario;
+            }
+            else{
+                node.setDone(true);
+                return diccionario(root,root,diccionario,"");
+            }
+        }
+        else if(node.hasLeftChild() && !node.getLeftChild().isDone()){
+            if(node.getLeftChild().isLeaf()){
+                word += "0";
+                diccionario.push_back(new Word(word,node.getValue().getValue()));
+                node.setDone(true);
+                return diccionario(root,root,diccionario,"");
+            }
+            return diccionario(node.getLeftChild(),root,diccionario, word += "0");
+        }
+        else if(node.hasRightChild() && !node.getRightChild().isDone()){
+            if(node.getRightChild().isLeaf()){
+                word += "1";
+                diccionario.push_back(new Word(word,node.getValue().getValue()));
+                node.setDone(true);
+                return diccionario(root,root,diccionario,"");
+            }
+            return diccionario(node.getRightChild(),root,diccionario,word += "1");
+        }
+        return diccionario;
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;

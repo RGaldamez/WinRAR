@@ -14,11 +14,13 @@ public class TreeNode {
     private TreeNode rightChild;
     private TreeNode leftChild;
     Huffman value = new Huffman();
+    private boolean done;
 
     public TreeNode(Huffman value) {
         this.value = value;
         rightChild = null;
         leftChild = null;
+        done = false;
     }
 
     public TreeNode getRightChild() {
@@ -61,7 +63,18 @@ public class TreeNode {
         return false;
     }
     
+    public boolean isDone(){
+        return done;
+    }
     
+    public void setDone(boolean done){
+        this.done = done;
+    }
     
+    public boolean isLeaf(){
+        if(!hasLeftChild() && !hasRightChild())
+            return true;
+        return false;
+    }
     
 }
