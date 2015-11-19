@@ -179,18 +179,9 @@ public class Console extends javax.swing.JFrame {
         if (key == KeyEvent.VK_ENTER){
             //JOptionPane.showMessageDialog(this, "Funka", "El evento funka", JOptionPane.INFORMATION_MESSAGE);
             if (command.equals("ls")){
-                DefaultListModel model = new DefaultListModel();
                 
-                for (File listFile : directory.listFiles()) {
-                    if (listFile.isFile()){
-                        model.addElement("File: "+listFile.getName());
-                    }else if (listFile.isDirectory()){
-                        model.addElement("Directory: "+listFile.getName());
-                    }
-                    
-                }
-
-                this.jl_directorio.setModel(model);
+                refreshList();
+                
                 this.jt_comando.setText("");
             } else if (command.charAt(0)== 'c' || command.charAt(1)== 'd' ){
                 
@@ -235,7 +226,6 @@ public class Console extends javax.swing.JFrame {
                         int cantidadPlecas = 0;
                         for (int i = 0; i < directory.getAbsolutePath().length(); i++) {
                             if (directory.getAbsolutePath().charAt(i) == '/' ){
-                                System.out.println("si era pleca");
                                 cantidadPlecas++;
                             }
                         }
@@ -251,13 +241,7 @@ public class Console extends javax.swing.JFrame {
                             JOptionPane.showMessageDialog(this, "No hay directorio anterior", "error", JOptionPane.ERROR_MESSAGE);
                         }else{
                             directory = new File(newPath);
-                            DefaultListModel model = new DefaultListModel();
-                            
-                            for (File file: directory.listFiles()) {
-                                model.addElement(file.getName());
-                            }
-                            this.jl_directorio.setModel(model);
-                            this.jt_direccion.setText(directory.getAbsolutePath());
+                            refreshList();
                         }
                         
                        
@@ -370,6 +354,22 @@ public class Console extends javax.swing.JFrame {
             arbol = llenarArbol(nodes, arbol);
         }
 
+    }
+    
+    public void refreshList(){
+        DefaultListModel model = new DefaultListModel();
+
+        for (File file: directory.listFiles()) {
+            if (file.isDirectory()){
+                model.addElement("Directory: "+file.getName());
+            }else if (file.isFile()){
+                model.addElement("File: "+file.getName());
+            }
+
+        }
+        this.jl_directorio.setModel(model);
+        this.jt_direccion.setText(directory.getAbsolutePath());
+        
     }
     public BinaryTree llenarArbol(List nodes, BinaryTree tree){
         if(nodes.size() == 2){
