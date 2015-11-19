@@ -355,26 +355,9 @@ public class Console extends javax.swing.JFrame {
         }
         BinaryTree arbol = new BinaryTree();
         arbol = llenarArbol(nodes, arbol);
+        String temp ="";  // :D
+        diccionario = diccionario(arbol.getRoot(), arbol.getRoot(), diccionario, temp);
 
-    }
-    
-    public void refreshList(){
-        DefaultListModel model = new DefaultListModel();
-
-        for (File file: directory.listFiles()) {
-            if (file.isDirectory()){
-                model.addElement("Directory: "+file.getName());
-            }
-        }
-        
-         for (File file: directory.listFiles()) {
-            if (file.isFile()){
-                model.addElement("File: "+file.getName());
-            }
-        }
-        this.jl_directorio.setModel(model);
-        this.jt_direccion.setText(directory.getAbsolutePath());
-        
     }
     public BinaryTree llenarArbol(List nodes, BinaryTree tree){
         if(nodes.size() == 2){
@@ -408,37 +391,63 @@ public class Console extends javax.swing.JFrame {
             return llenarArbol(nodes,tree);
         }
     }
-    
     public List diccionario(TreeNode node,TreeNode root, List diccionario, String word){
         if(node.hasLeftChild() && node.getLeftChild().isDone() && node.hasRightChild() && node.getRightChild().isDone()){
             if(node == root){
+                System.out.println("ya volvi");
                 return diccionario;
             }
             else{
                 node.setDone(true);
                 return diccionario(root,root,diccionario,"");
-            }
+            } 
         }
         else if(node.hasLeftChild() && !node.getLeftChild().isDone()){
             if(node.getLeftChild().isLeaf()){
                 word += "0";
                 diccionario.push_back(new Word(word,node.getValue().getValue()));
-                node.setDone(true);
+                node.getLeftChild().setDone(true);
+                System.out.println("agregue left");
                 return diccionario(root,root,diccionario,"");
             }
+            System.out.println("me movi left");
             return diccionario(node.getLeftChild(),root,diccionario, word += "0");
         }
         else if(node.hasRightChild() && !node.getRightChild().isDone()){
             if(node.getRightChild().isLeaf()){
                 word += "1";
                 diccionario.push_back(new Word(word,node.getValue().getValue()));
-                node.setDone(true);
+                node.getRightChild().setDone(true);
+                System.out.println("agregue right");
                 return diccionario(root,root,diccionario,"");
             }
+            System.out.println("Me movi right");
             return diccionario(node.getRightChild(),root,diccionario,word += "1");
-        }
+        }        
+        
+        System.out.println("cai aca");
         return diccionario;
     }
+    
+    public void refreshList(){
+        DefaultListModel model = new DefaultListModel();
+
+        for (File file: directory.listFiles()) {
+            if (file.isDirectory()){
+                model.addElement("Directory: "+file.getName());
+            }
+        }
+        
+         for (File file: directory.listFiles()) {
+            if (file.isFile()){
+                model.addElement("File: "+file.getName());
+            }
+        }
+        this.jl_directorio.setModel(model);
+        this.jt_direccion.setText(directory.getAbsolutePath());
+        
+    }
+    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JList jList1;
@@ -452,6 +461,6 @@ public class Console extends javax.swing.JFrame {
     private javax.swing.JTextField jt_direccion;
     // End of variables declaration//GEN-END:variables
     private File directory = new File("//home//rick"); 
-
+    private List diccionario = new List();
 
 }
