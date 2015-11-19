@@ -7,9 +7,12 @@ package winrar;
 
 import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -397,6 +400,9 @@ public class Console extends javax.swing.JFrame {
             while((temp = buffer_reader.readLine()) != null){
                 buffer += temp;
             }
+            
+            buffer_reader.close();
+            reader.close();
         } catch (Exception ex) {
             ex.printStackTrace();
         }
@@ -436,6 +442,27 @@ public class Console extends javax.swing.JFrame {
         arbol = llenarArbol(nodes, arbol);
         String temp ="";  // :D
         diccionario = diccionario(arbol.getRoot(), arbol.getRoot(), diccionario, temp);
+        
+        String binary_string = toBinaryString(buffer,diccionario);
+        
+        String nueva_file="";
+        for (int i = 0; i < file.getPath().length(); i++) {
+            if(file.getPath().charAt(i) == '.')
+                break;
+            nueva_file += file.getPath().charAt(i);
+        }
+        try {
+            FileWriter writer = new FileWriter(new File(nueva_file+".hff"));
+            BufferedWriter b_writer = new BufferedWriter(writer);
+            
+            b_writer.append(binary_string);
+            
+            b_writer.flush();
+            b_writer.close();
+            writer.close();
+        } catch (IOException ex) {
+            Logger.getLogger(Console.class.getName()).log(Level.SEVERE, null, ex);
+        }
 
     }
     public BinaryTree llenarArbol(List nodes, BinaryTree tree){
@@ -473,7 +500,6 @@ public class Console extends javax.swing.JFrame {
     public List diccionario(TreeNode node,TreeNode root, List diccionario, String word){
         if(node.hasLeftChild() && node.getLeftChild().isDone() && node.hasRightChild() && node.getRightChild().isDone()){
             if(node == root){
-                System.out.println("ya volvi");
                 return diccionario;
             }
             else{
@@ -484,9 +510,8 @@ public class Console extends javax.swing.JFrame {
         else if(node.hasLeftChild() && !node.getLeftChild().isDone()){
             if(node.getLeftChild().isLeaf()){
                 word += "0";
-                diccionario.push_back(new Word(word,node.getValue().getValue()));
+                diccionario.push_back(new Word(word,node.getLeftChild().getValue().getValue()));
                 node.getLeftChild().setDone(true);
-                System.out.println("agregue left");
                 return diccionario(root,root,diccionario,"");
             }
             System.out.println("me movi left");
@@ -495,17 +520,25 @@ public class Console extends javax.swing.JFrame {
         else if(node.hasRightChild() && !node.getRightChild().isDone()){
             if(node.getRightChild().isLeaf()){
                 word += "1";
-                diccionario.push_back(new Word(word,node.getValue().getValue()));
+                diccionario.push_back(new Word(word,node.getRightChild().getValue().getValue()));
                 node.getRightChild().setDone(true);
-                System.out.println("agregue right");
                 return diccionario(root,root,diccionario,"");
             }
-            System.out.println("Me movi right");
             return diccionario(node.getRightChild(),root,diccionario,word += "1");
         }        
         
-        System.out.println("cai aca");
         return diccionario;
+    }
+    private String toBinaryString(String cadena, List diccionario){
+        String nueva_cadena = "";
+        for (int i = 0; i < cadena.length(); i++) {
+            for (int j = 0; j < diccionario.size(); j++) {
+                if(cadena.charAt(i) == ((Word)diccionario.elementAt(j).getValue()).getCharacter()){
+                    nueva_cadena += ((Word)diccionario.elementAt(j).getValue()).getBinary_code();
+                }
+            }
+        }
+        return nueva_cadena;
     }
     
     public void refreshList(){
