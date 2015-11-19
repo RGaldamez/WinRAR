@@ -73,7 +73,7 @@ public class Console extends javax.swing.JFrame {
         });
 
         jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "cd <folder name>: cambiara la ruta actual de la consola a la del folder.", "Ejemplo:", "cd <Desktop>", " ", "ls: listara los archivos y directorios de la carpeta actual.", " ", "compress <filename.txt> ", "Ejemplo:", " ", "diff <filename.txt>: mostrara una venta de comparacion entre ", "el archivo comprimido y el archivo original.", " ", "help", "Muestra esta ventana" };
+            String[] strings = { "cd <folder name>: cambiara la ruta actual de la consola a la del folder.", "Ejemplo:", "cd <Desktop>", " ", "ls: listara los archivos y directorios de la carpeta actual.", " ", "compress <filename.txt> ", "Ejemplo:", " ", "diff <filename.hff>: mostrara una venta de comparacion entre ", "el archivo comprimido y el archivo original.", " ", "help", "Muestra esta ventana" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });

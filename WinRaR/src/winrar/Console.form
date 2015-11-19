@@ -51,7 +51,7 @@
                     <StringItem index="6" value="compress &lt;filename.txt&gt; "/>
                     <StringItem index="7" value="Ejemplo:"/>
                     <StringItem index="8" value=" "/>
-                    <StringItem index="9" value="diff &lt;filename.txt&gt;: mostrara una venta de comparacion entre "/>
+                    <StringItem index="9" value="diff &lt;filename.hff&gt;: mostrara una venta de comparacion entre "/>
                     <StringItem index="10" value="el archivo comprimido y el archivo original."/>
                     <StringItem index="11" value=" "/>
                     <StringItem index="12" value="help"/>
