@@ -257,6 +257,76 @@ public class Console extends javax.swing.JFrame {
             }else if (command.equalsIgnoreCase("help")){
                 openDialog(this.jl_listaComandos);
                 this.jt_comando.setText("");
+            }else if (command.charAt(0) == 'c'
+                    && command.charAt(1) == 'o'
+                    && command.charAt(2) == 'm'
+                    && command.charAt(3) == 'p'
+                    && command.charAt(4) == 'r'
+                    && command.charAt(5) == 'e'
+                    && command.charAt(6) == 's'
+                    && command.charAt(7) == 's'){
+                
+                String operaciones = "";
+                Queue ordenArchivos = new Queue(); 
+                List priority  = new List();
+                List files = new List();
+                List splits = new List();
+                List newList = new List();
+                for (int i = 9; i < command.length(); i++) {
+                    operaciones += command.charAt(i);
+                }
+                StringTokenizer splitOperaciones = new StringTokenizer(operaciones,"|");
+                while(splitOperaciones.hasMoreTokens()){
+                    splits.push_back(splitOperaciones.nextToken());
+                }
+                boolean addToFiles = true;
+                String tempToken="";
+                String temp = "";
+                for (int i = 0; i < splits.size(); i++) {
+                    
+                    StringTokenizer token  = new StringTokenizer((String)splits.elementAt(i).getValue(),"<");
+                    
+                    while (token.hasMoreTokens()){
+                        for (int j = 0; j < (tempToken=token.nextToken()).length(); j++) {
+                            if (tempToken.charAt(i)!= '>'){
+                                temp+=tempToken.charAt(i);
+                            }else{
+                                break;
+                            }
+                        }
+                        if (addToFiles){
+                            files.push_back(temp);
+                            addToFiles = false;
+                        }else{
+                            priority.push_back(temp);
+                            addToFiles = true;
+                        }
+                        
+                    }
+                }
+                
+                //ordenar en una nueva lista para agregar al queue
+                int menor;
+                int temporary;
+                for (int i = 0; i < priority.size(); i++) {
+                    menor = i;
+                    for (int j = 0; j < priority.size(); j++) {
+                        
+                        if (Integer.parseInt((String)priority.elementAt(j).getValue()) 
+                                > Integer.parseInt((String)priority.elementAt(menor).getValue())){
+                            menor = j;
+                        }
+                        
+                    }
+                    swap(files,priority,i,menor);
+                }
+                
+                
+                
+                
+                
+                
+                
             }else{
                 JOptionPane.showMessageDialog(this, "Comando no existente", "Error", JOptionPane.ERROR_MESSAGE);
             }
@@ -305,6 +375,15 @@ public class Console extends javax.swing.JFrame {
         dialog.setModal(true);
         dialog.pack();
         dialog.setVisible(true);
+    }
+    
+    public void swap(List files,List list,int i,int j){
+        int temp = Integer.parseInt((String)list.elementAt(i).getValue());
+        File tempFile = (File)files.elementAt(i).getValue();
+        list.elementAt(i).setValue(Integer.parseInt((String)list.elementAt(j).getValue()));
+        files.elementAt(i).setValue(files.elementAt(j).getValue());
+        list.elementAt(j).setValue(temp);
+        files.elementAt(j).setValue(tempFile);
     }
     
     public void compress(File file){
