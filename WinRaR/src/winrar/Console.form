@@ -41,7 +41,7 @@
             <Component class="javax.swing.JList" name="jList1">
               <Properties>
                 <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-                  <StringArray count="18">
+                  <StringArray count="21">
                     <StringItem index="0" value="cd &lt;folder name&gt;: cambiara la ruta actual de la consola a la del folder."/>
                     <StringItem index="1" value="Ejemplo:"/>
                     <StringItem index="2" value="cd Desktop"/>
@@ -60,6 +60,9 @@
                     <StringItem index="15" value=" "/>
                     <StringItem index="16" value="diff &lt;filename.txt&gt;: mostrara una venta de comparacion entre "/>
                     <StringItem index="17" value="el archivo comprimido y el archivo original."/>
+                    <StringItem index="18" value=" "/>
+                    <StringItem index="19" value="help"/>
+                    <StringItem index="20" value="Muestra esta ventana"/>
                   </StringArray>
                 </Property>
               </Properties>
@@ -114,8 +117,6 @@
                   <Component id="jt_comando" alignment="0" pref="718" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="jb_listaComandos" min="-2" max="-2" attributes="0"/>
-                      <EmptySpace min="-2" pref="211" max="-2" attributes="0"/>
-                      <Component id="jButton1" min="-2" max="-2" attributes="0"/>
                       <EmptySpace min="0" pref="0" max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -133,10 +134,7 @@
               <EmptySpace max="-2" attributes="0"/>
               <Component id="jt_comando" min="-2" pref="30" max="-2" attributes="0"/>
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="3" attributes="0">
-                  <Component id="jb_listaComandos" alignment="3" min="-2" max="-2" attributes="0"/>
-                  <Component id="jButton1" alignment="3" min="-2" max="-2" attributes="0"/>
-              </Group>
+              <Component id="jb_listaComandos" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
       </Group>
@@ -180,14 +178,6 @@
       </Properties>
       <Events>
         <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jb_listaComandosActionPerformed"/>
-      </Events>
-    </Component>
-    <Component class="javax.swing.JButton" name="jButton1">
-      <Properties>
-        <Property name="text" type="java.lang.String" value="Testing directories in /home/rick (modify later)"/>
-      </Properties>
-      <Events>
-        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
       </Events>
     </Component>
   </SubComponents>
