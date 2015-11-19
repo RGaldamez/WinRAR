@@ -364,10 +364,13 @@ public class Console extends javax.swing.JFrame {
         for (File file: directory.listFiles()) {
             if (file.isDirectory()){
                 model.addElement("Directory: "+file.getName());
-            }else if (file.isFile()){
+            }
+        }
+        
+         for (File file: directory.listFiles()) {
+            if (file.isFile()){
                 model.addElement("File: "+file.getName());
             }
-
         }
         this.jl_directorio.setModel(model);
         this.jt_direccion.setText(directory.getAbsolutePath());
