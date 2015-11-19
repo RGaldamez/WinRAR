@@ -73,7 +73,7 @@ public class Console extends javax.swing.JFrame {
         });
 
         jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "cd <folder name>: cambiara la ruta actual de la consola a la del folder.", "Ejemplo:", "cd <Desktop>", " ", "ls: listara los archivos y directorios de la carpeta actual.", " ", "compress <filename.txt> ", "Ejemplo:", " ", "diff <filename.hff>: mostrara una venta de comparacion entre ", "el archivo comprimido y el archivo original.", " ", "help", "Muestra esta ventana" };
+            String[] strings = { "cd <folder name>: cambiara la ruta actual de la consola a la del folder.", "Ejemplo:", "cd <Desktop>", " ", "ls: listara los archivos y directorios de la carpeta actual.", " ", "compress <filename.txt> ", "Ejemplo:", " ", "diff <filename.hff>: mostrara una venta de comparacion entre ", "el archivo comprimido y el archivo original.", " ", "help", "Muestra esta ventana", " ", "exit", "Termina la ejecucion del programa" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
@@ -279,10 +279,15 @@ public class Console extends javax.swing.JFrame {
                             newPath+="/"+splitDirectory.nextToken();
                             contadorPlecas++;
                         }
-                        if(contadorPlecas==0){
+                        if(contadorPlecas==0 && directory.getAbsolutePath().length()<=1){
                             DefaultListModel model = new DefaultListModel();
                             model.addElement("No hay direcotio anterior!");
                             this.jl_directorio.setModel(model);
+                            
+                        }else if (contadorPlecas==0 && directory.getAbsolutePath().length()>1){
+                        directory = new File("/");
+                        refreshList();
+                        
                         }else{
                             directory = new File(newPath);
                             refreshList();
@@ -470,10 +475,13 @@ public class Console extends javax.swing.JFrame {
                     
                 }else{
                     DefaultListModel model = new DefaultListModel();
-                    model.addElement("El archivo no tiene extension hff!");
+                    model.addElement("El archivo no tiene extension hff o no existe!");
                     this.jl_directorio.setModel(model);
                 }
  
+            }else if (command.equalsIgnoreCase("exit")){ 
+            System.exit(0);
+            
             }else{
                 DefaultListModel model = new DefaultListModel();
                 model.addElement("Comando no existente!");
