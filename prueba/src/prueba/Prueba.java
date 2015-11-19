@@ -30,9 +30,11 @@ public class Prueba {
         sc = new Scanner(System.in);
         File file = new File("//home//megarokr//NetBeansProjects//prueba//src//prueba//otronombre.txt");
         compress(file);
+       
         for (int i = 0; i < diccionario.size(); i++) {
             System.out.println(((Word)diccionario.elementAt(i).getValue()).toString());
         }
+        decompress(new File("//home//megarokr//NetBeansProjects//prueba//src//prueba//otronombre.hff"));
     }
     public static void compress(File file){
         //leer file
@@ -45,6 +47,7 @@ public class Prueba {
             while((temp = buffer_reader.readLine()) != null){
                 buffer += temp;
             }
+            string = buffer;
             
             buffer_reader.close();
             reader.close();
@@ -202,6 +205,13 @@ public class Prueba {
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+        while(!buffer.equalsIgnoreCase(string)){
+            for (int i = 0; i < diccionario.size(); i++) {
+                buffer.replace(((Word)diccionario.elementAt(i).getValue()).getBinary_code(), ""+((Word)diccionario.elementAt(i).getValue()).getCharacter());
+            }
+            System.out.println(buffer);
+        }
     }
     private static List diccionario = new List(); 
+    private static String string;
 }
