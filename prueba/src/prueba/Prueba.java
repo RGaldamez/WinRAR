@@ -8,9 +8,11 @@ package prueba;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -34,7 +36,7 @@ public class Prueba {
         for (int i = 0; i < diccionario.size(); i++) {
             System.out.println(((Word)diccionario.elementAt(i).getValue()).toString());
         }
-        decompress(new File("//home//megarokr//NetBeansProjects//prueba//src//prueba//otronombre.hff"));
+        //decompress(new File("//home//megarokr//NetBeansProjects//prueba//src//prueba//otronombre.hff"));
     }
     public static void compress(File file){
         //leer file
@@ -100,14 +102,13 @@ public class Prueba {
             nueva_file += file.getPath().charAt(i);
         }
         try {
-            FileWriter writer = new FileWriter(new File(nueva_file+".hff"));
-            BufferedWriter b_writer = new BufferedWriter(writer);
+            FileOutputStream ostream = new FileOutputStream(new File(nueva_file+".hff"));
+            ObjectOutputStream owriter = new ObjectOutputStream(ostream);
+            owriter.writeObject(binary_string);
             
-            b_writer.append(binary_string);
-            
-            b_writer.flush();
-            b_writer.close();
-            writer.close();
+            owriter.flush();
+            owriter.close();
+            ostream.close();
         } catch (IOException ex) {
             Logger.getLogger(Prueba.class.getName()).log(Level.SEVERE, null, ex);
         }

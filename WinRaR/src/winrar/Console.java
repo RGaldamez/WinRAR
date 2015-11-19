@@ -10,9 +10,11 @@ import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
 import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -460,14 +462,13 @@ public class Console extends javax.swing.JFrame {
             nueva_file += file.getPath().charAt(i);
         }
         try {
-            FileWriter writer = new FileWriter(new File(nueva_file+".hff"));
-            BufferedWriter b_writer = new BufferedWriter(writer);
+            FileOutputStream ostream = new FileOutputStream(new File(nueva_file+".hff"));
+            ObjectOutputStream owriter = new ObjectOutputStream(ostream);
+            owriter.writeObject(binary_string);
             
-            b_writer.append(binary_string);
-            
-            b_writer.flush();
-            b_writer.close();
-            writer.close();
+            owriter.flush();
+            owriter.close();
+            ostream.close();
         } catch (IOException ex) {
             Logger.getLogger(Console.class.getName()).log(Level.SEVERE, null, ex);
         }
@@ -522,7 +523,6 @@ public class Console extends javax.swing.JFrame {
                 node.getLeftChild().setDone(true);
                 return diccionario(root,root,diccionario,"");
             }
-            System.out.println("me movi left");
             return diccionario(node.getLeftChild(),root,diccionario, word += "0");
         }
         else if(node.hasRightChild() && !node.getRightChild().isDone()){
