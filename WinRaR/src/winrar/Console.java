@@ -53,6 +53,12 @@ public class Console extends javax.swing.JFrame {
         jScrollPane2 = new javax.swing.JScrollPane();
         jList1 = new javax.swing.JList();
         jd_comparacion = new javax.swing.JDialog();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jt_archivoComprimido = new javax.swing.JTextArea();
+        jScrollPane4 = new javax.swing.JScrollPane();
+        jt_archivoOriginal = new javax.swing.JTextArea();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
         jt_direccion = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         jl_directorio = new javax.swing.JList();
@@ -90,15 +96,55 @@ public class Console extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
+        jt_archivoComprimido.setColumns(20);
+        jt_archivoComprimido.setRows(5);
+        jScrollPane3.setViewportView(jt_archivoComprimido);
+
+        jt_archivoOriginal.setColumns(20);
+        jt_archivoOriginal.setRows(5);
+        jScrollPane4.setViewportView(jt_archivoOriginal);
+
+        jLabel1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel1.setText("Original (archivo txt)");
+
+        jLabel2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
+        jLabel2.setText("Archivo comprimido ");
+
         javax.swing.GroupLayout jd_comparacionLayout = new javax.swing.GroupLayout(jd_comparacion.getContentPane());
         jd_comparacion.getContentPane().setLayout(jd_comparacionLayout);
         jd_comparacionLayout.setHorizontalGroup(
             jd_comparacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_comparacionLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(jd_comparacionLayout.createSequentialGroup()
+                .addGap(125, 125, 125)
+                .addComponent(jLabel1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 194, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(122, 122, 122))
+            .addGroup(jd_comparacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jd_comparacionLayout.createSequentialGroup()
+                    .addGap(22, 22, 22)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(358, Short.MAX_VALUE)))
         );
         jd_comparacionLayout.setVerticalGroup(
             jd_comparacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_comparacionLayout.createSequentialGroup()
+                .addGap(26, 26, 26)
+                .addGroup(jd_comparacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jLabel2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(jd_comparacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jd_comparacionLayout.createSequentialGroup()
+                    .addContainerGap(77, Short.MAX_VALUE)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap()))
         );
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -176,7 +222,7 @@ public class Console extends javax.swing.JFrame {
                 refreshList();
                 
                 this.jt_comando.setText("");
-            } else if (command.charAt(0)== 'c' || command.charAt(1)== 'd' ){
+            } else if (command.charAt(0)== 'c' && command.charAt(1)== 'd' ){
                 
                 
                 boolean flechaDer = false;
@@ -272,11 +318,34 @@ public class Console extends javax.swing.JFrame {
                     && command.charAt(7) == 's'){
                 
                
-                String newCommand = "";
+                String fileName = "";
                 
-                for (int i = 9; i < command.length(); i++) {
-                    newCommand+=command.charAt(i);
+                for (int i = 10; i < command.length(); i++) {
+                    if (command.charAt(i)!= '>'){
+                        fileName+=command.charAt(i);
+                    }else{
+                        break;
+                    }
                 }
+                System.out.println(fileName);
+                if (fileName.charAt(fileName.length()-3)=='t' && fileName.charAt(fileName.length()-2)=='x' && fileName.charAt(fileName.length()-1)=='t'){
+                    File fileToCompress = new File(directory.getAbsolutePath()+"/"+fileName);
+                
+                    if (fileToCompress.exists() && fileToCompress.isFile()){
+                        compress(fileToCompress);
+                        DefaultListModel model = new DefaultListModel();
+                        model.addElement("Archivo Comprimido!");
+                        this.jl_directorio.setModel(model);
+                    }
+                    
+                }else{
+                    DefaultListModel model = new DefaultListModel();
+                    model.addElement("Error, archivo no es un .txt");
+                    this.jl_directorio.setModel(model);
+                }
+                
+                
+                
                 
                 /*
                 String operaciones = "";
@@ -337,6 +406,37 @@ public class Console extends javax.swing.JFrame {
                 */
                 
                 
+                
+                
+                
+            }else if (command.charAt(0) == 'd' 
+                    && command.charAt(1) == 'i' 
+                    && command.charAt(2) == 'f' 
+                    && command.charAt(3) == 'f'){
+                
+                String fileName = "";
+                
+                for (int i = 6; i < command.length(); i++) {
+                    if (command.charAt(i)!= '>'){
+                        fileName+=command.charAt(i);
+                    }else{
+                        break;
+                    }
+                }
+                if (fileName.charAt(fileName.length()-3) == 'h' 
+                        && fileName.charAt(fileName.length()-2) == 'f' 
+                        && fileName.charAt(fileName.length()-1) == 'f'){
+                    
+                    
+                    
+                    
+                    
+                    
+                }else{
+                    DefaultListModel model = new DefaultListModel();
+                    model.addElement("El archivo no tiene extension hff!");
+                    this.jl_directorio.setModel(model);
+                }
                 
                 
                 
@@ -570,13 +670,19 @@ public class Console extends javax.swing.JFrame {
     
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JButton jb_listaComandos;
     private javax.swing.JDialog jd_comparacion;
     private javax.swing.JList jl_directorio;
     private javax.swing.JDialog jl_listaComandos;
+    private javax.swing.JTextArea jt_archivoComprimido;
+    private javax.swing.JTextArea jt_archivoOriginal;
     private javax.swing.JTextField jt_comando;
     private javax.swing.JTextField jt_direccion;
     // End of variables declaration//GEN-END:variables
