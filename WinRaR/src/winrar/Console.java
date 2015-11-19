@@ -65,7 +65,7 @@ public class Console extends javax.swing.JFrame {
         });
 
         jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "cd <folder name>: cambiara la ruta actual de la consola a la del folder.", "Ejemplo:", "cd Desktop", " ", "ls: listara los archivos y directorios de la carpeta actual.", " ", "compress <filename.txt> <prioridad> | ... | <filename.txt> <priodidad>:", "comprimira los archivos seleccionados en el orden de prioridad especificado;", "como resultado se tendra un archivo de salida con extension hff.", "Ejemplo:", "compress <texto.hff> <1> | <texto2.hff> <2> |<texto3.hff> <3>", " ", "decompress <filename.txt> <prioridad> | ... | <filename.txt> <prioridad>:", "Ejemplo:", "decompress <texto.txt> <1> | <texto2.txt> <2> | <texto3.txt> <3>", " ", "diff <filename.txt>: mostrara una venta de comparacion entre ", "el archivo comprimido y el archivo original.", " ", "help", "Muestra esta ventana" };
+            String[] strings = { "cd <folder name>: cambiara la ruta actual de la consola a la del folder.", "Ejemplo:", "cd <Desktop>", " ", "ls: listara los archivos y directorios de la carpeta actual.", " ", "compress <filename.txt> ", "Ejemplo:", " ", "diff <filename.txt>: mostrara una venta de comparacion entre ", "el archivo comprimido y el archivo original.", " ", "help", "Muestra esta ventana" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
@@ -269,6 +269,14 @@ public class Console extends javax.swing.JFrame {
                     && command.charAt(6) == 's'
                     && command.charAt(7) == 's'){
                 
+               
+                String newCommand = "";
+                
+                for (int i = 9; i < command.length(); i++) {
+                    newCommand+=command.charAt(i);
+                }
+                
+                /*
                 String operaciones = "";
                 Queue ordenArchivos = new Queue(); 
                 List priority  = new List();
@@ -324,7 +332,7 @@ public class Console extends javax.swing.JFrame {
                     swap(files,priority,i,menor);
                 }
                 
-                
+                */
                 
                 
                 

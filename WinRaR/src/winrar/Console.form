@@ -41,28 +41,21 @@
             <Component class="javax.swing.JList" name="jList1">
               <Properties>
                 <Property name="model" type="javax.swing.ListModel" editor="org.netbeans.modules.form.editors2.ListModelEditor">
-                  <StringArray count="21">
+                  <StringArray count="14">
                     <StringItem index="0" value="cd &lt;folder name&gt;: cambiara la ruta actual de la consola a la del folder."/>
                     <StringItem index="1" value="Ejemplo:"/>
-                    <StringItem index="2" value="cd Desktop"/>
+                    <StringItem index="2" value="cd &lt;Desktop&gt;"/>
                     <StringItem index="3" value=" "/>
                     <StringItem index="4" value="ls: listara los archivos y directorios de la carpeta actual."/>
                     <StringItem index="5" value=" "/>
-                    <StringItem index="6" value="compress &lt;filename.txt&gt; &lt;prioridad&gt; | ... | &lt;filename.txt&gt; &lt;priodidad&gt;:"/>
-                    <StringItem index="7" value="comprimira los archivos seleccionados en el orden de prioridad especificado;"/>
-                    <StringItem index="8" value="como resultado se tendra un archivo de salida con extension hff."/>
-                    <StringItem index="9" value="Ejemplo:"/>
-                    <StringItem index="10" value="compress &lt;texto.hff&gt; &lt;1&gt; | &lt;texto2.hff&gt; &lt;2&gt; |&lt;texto3.hff&gt; &lt;3&gt;"/>
+                    <StringItem index="6" value="compress &lt;filename.txt&gt; "/>
+                    <StringItem index="7" value="Ejemplo:"/>
+                    <StringItem index="8" value=" "/>
+                    <StringItem index="9" value="diff &lt;filename.txt&gt;: mostrara una venta de comparacion entre "/>
+                    <StringItem index="10" value="el archivo comprimido y el archivo original."/>
                     <StringItem index="11" value=" "/>
-                    <StringItem index="12" value="decompress &lt;filename.txt&gt; &lt;prioridad&gt; | ... | &lt;filename.txt&gt; &lt;prioridad&gt;:"/>
-                    <StringItem index="13" value="Ejemplo:"/>
-                    <StringItem index="14" value="decompress &lt;texto.txt&gt; &lt;1&gt; | &lt;texto2.txt&gt; &lt;2&gt; | &lt;texto3.txt&gt; &lt;3&gt;"/>
-                    <StringItem index="15" value=" "/>
-                    <StringItem index="16" value="diff &lt;filename.txt&gt;: mostrara una venta de comparacion entre "/>
-                    <StringItem index="17" value="el archivo comprimido y el archivo original."/>
-                    <StringItem index="18" value=" "/>
-                    <StringItem index="19" value="help"/>
-                    <StringItem index="20" value="Muestra esta ventana"/>
+                    <StringItem index="12" value="help"/>
+                    <StringItem index="13" value="Muestra esta ventana"/>
                   </StringArray>
                 </Property>
               </Properties>
