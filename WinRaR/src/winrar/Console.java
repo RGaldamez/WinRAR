@@ -10,6 +10,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.util.StringTokenizer;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.DefaultListModel;
@@ -51,7 +52,6 @@ public class Console extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         jl_directorio = new javax.swing.JList();
         jt_comando = new javax.swing.JTextField();
-        jb_enter = new javax.swing.JButton();
         jb_listaComandos = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
 
@@ -115,8 +115,6 @@ public class Console extends javax.swing.JFrame {
             }
         });
 
-        jb_enter.setText("Enter");
-
         jb_listaComandos.setText("Lista de Comandos");
         jb_listaComandos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -143,9 +141,7 @@ public class Console extends javax.swing.JFrame {
                     .addComponent(jt_comando, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jb_listaComandos)
-                        .addGap(44, 44, 44)
-                        .addComponent(jb_enter, javax.swing.GroupLayout.PREFERRED_SIZE, 106, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(61, 61, 61)
+                        .addGap(211, 211, 211)
                         .addComponent(jButton1)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
@@ -161,7 +157,6 @@ public class Console extends javax.swing.JFrame {
                 .addComponent(jt_comando, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jb_enter)
                     .addComponent(jb_listaComandos)
                     .addComponent(jButton1))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
@@ -179,64 +174,108 @@ public class Console extends javax.swing.JFrame {
     }//GEN-LAST:event_jb_listaComandosActionPerformed
 
     private void jt_comandoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jt_comandoKeyPressed
-        int key = evt.getKeyCode();
+         int key = evt.getKeyCode();
         String command = jt_comando.getText();
         if (key == KeyEvent.VK_ENTER){
             //JOptionPane.showMessageDialog(this, "Funka", "El evento funka", JOptionPane.INFORMATION_MESSAGE);
             if (command.equals("ls")){
                 DefaultListModel model = new DefaultListModel();
-
-                File files [] = directory.listFiles();
-                for (File file: files) {
-                    model.addElement(file.getName());
+                
+                for (File listFile : directory.listFiles()) {
+                    if (listFile.isFile()){
+                        model.addElement("File: "+listFile.getName());
+                    }else if (listFile.isDirectory()){
+                        model.addElement("Directory: "+listFile.getName());
+                    }
+                    
                 }
+
                 this.jl_directorio.setModel(model);
                 this.jt_comando.setText("");
-            } else if (command.charAt(0)== 'c' || command.charAt(1)== 'd' && command.length()>=2){
-                Stack newDirectory = new Stack();
-                int  arrowPosition = -1;
+            } else if (command.charAt(0)== 'c' || command.charAt(1)== 'd' ){
+                
+                
+                boolean flechaDer = false;
+                boolean flechaIzq = false;
+                
                 for (int i = 0; i < command.length(); i++) {
-                    if (command.charAt(i)== '<'){
-                        arrowPosition = i-1;
-                        break;
+                    if (command.charAt(i) == '>'){
+                        flechaDer = true;
+                    }
+                    
+                    if (command.charAt(i) == '<'){
+                        flechaIzq = true;
                     }
                 }
-                for (int i = arrowPosition; i < command.length(); i++) {
-                    if (command.charAt(i)!='>'){
-                        newDirectory.push_back(command.charAt(i));
+                
+                if (flechaIzq && flechaDer){
+                    
+                    Stack newDirectory = new Stack();
+                    int  arrowPosition = -1;
+                    for (int i = 0; i < command.length(); i++) {
+                        if (command.charAt(i)== '<'){
+                            arrowPosition = i-1;
+                            break;
+                        }
+                    }
+                    for (int i = arrowPosition; i < command.length(); i++) {
+                        if (command.charAt(i)!='>'){
+                            newDirectory.push_back(command.charAt(i));
+
+                        }else{
+                            break;
+                        }
+                    }
+                    String Directory = "";
+                    String newPath = "";
+                    for (int i = 0; i < newDirectory.size(); i++) {
+                        Directory+= (char)newDirectory.pop_back().getValue();
+                    }
+                    if (Directory.equals("..")){
+                        int cantidadPlecas = 0;
+                        for (int i = 0; i < directory.getAbsolutePath().length(); i++) {
+                            if (directory.getAbsolutePath().charAt(i) == '/' ){
+                                System.out.println("si era pleca");
+                                cantidadPlecas++;
+                            }
+                        }
                         
-                    }else{
-                        break;
+                        StringTokenizer splitDirectory = new StringTokenizer(directory.getAbsolutePath(),"/");
+                        
+                        int contadorPlecas=0;
+                        while (splitDirectory.hasMoreTokens() && contadorPlecas+1<cantidadPlecas){
+                            newPath+="/"+splitDirectory.nextToken();
+                            contadorPlecas++;
+                        }
+                        if(contadorPlecas==0){
+                            JOptionPane.showMessageDialog(this, "No hay directorio anterior", "error", JOptionPane.ERROR_MESSAGE);
+                        }else{
+                            directory = new File(newPath);
+                            DefaultListModel model = new DefaultListModel();
+                            
+                            for (File file: directory.listFiles()) {
+                                model.addElement(file.getName());
+                            }
+                            this.jl_directorio.setModel(model);
+                            this.jt_direccion.setText(directory.getAbsolutePath());
+                        }
+                        
+                       
                     }
-                }
-                String Directory = "";
-                for (int i = 0; i < newDirectory.size(); i++) {
-                    Directory+= (char)newDirectory.pop_back().getValue();
-                }
-                if (Directory.equals("..")){
-                    String[] FinalDirectory = directory.getAbsolutePath().split("/");
-                    for (int i = 0; i < FinalDirectory.length; i++) {
-                    }
+                    
+                }else{
+                    JOptionPane.showMessageDialog(this, "Directorio no valido", "Error de Dirección", JOptionPane.ERROR_MESSAGE);
                 }
                 
             }else{
                 JOptionPane.showMessageDialog(this, "Comando no existente", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
+        
     }//GEN-LAST:event_jt_comandoKeyPressed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
 
-        if (this.jt_comando.getText().equals("ls")){
-            DefaultListModel model = new DefaultListModel();
-        
-            File files [] = directory.listFiles();
-            for (File file: files) {
-                model.addElement(file.getName());
-            }
-            this.jl_directorio.setModel(model);
-            this.jt_comando.setText("");
-        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
@@ -368,7 +407,6 @@ public class Console extends javax.swing.JFrame {
     private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JButton jb_enter;
     private javax.swing.JButton jb_listaComandos;
     private javax.swing.JDialog jd_comparacion;
     private javax.swing.JList jl_directorio;
@@ -376,7 +414,7 @@ public class Console extends javax.swing.JFrame {
     private javax.swing.JTextField jt_comando;
     private javax.swing.JTextField jt_direccion;
     // End of variables declaration//GEN-END:variables
-    private File directory = new File("//home//megarokr"); 
+    private File directory = new File("//home//rick"); 
 
 
 }
