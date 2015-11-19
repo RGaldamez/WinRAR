@@ -252,7 +252,7 @@ public class Console extends javax.swing.JFrame {
                             contadorDirectorio++;
                         }
                         File testFile = new File(directory.getAbsolutePath()+"/"+Directory);
-                        if (testFile.isDirectory() && testFile.exists()){
+                        if (testFile.isDirectory() && testFile.exists() && !Directory.equals(".")){
                             directory = new File(testFile.getAbsolutePath());
                             refreshList();
                         }else{
