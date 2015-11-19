@@ -53,7 +53,6 @@ public class Console extends javax.swing.JFrame {
         jl_directorio = new javax.swing.JList();
         jt_comando = new javax.swing.JTextField();
         jb_listaComandos = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
 
         jl_listaComandos.setTitle("HELP");
         jl_listaComandos.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -63,7 +62,7 @@ public class Console extends javax.swing.JFrame {
         });
 
         jList1.setModel(new javax.swing.AbstractListModel() {
-            String[] strings = { "cd <folder name>: cambiara la ruta actual de la consola a la del folder.", "Ejemplo:", "cd Desktop", " ", "ls: listara los archivos y directorios de la carpeta actual.", " ", "compress <filename.txt> <prioridad> | ... | <filename.txt> <priodidad>:", "comprimira los archivos seleccionados en el orden de prioridad especificado;", "como resultado se tendra un archivo de salida con extension hff.", "Ejemplo:", "compress <texto.hff> <1> | <texto2.hff> <2> |<texto3.hff> <3>", " ", "decompress <filename.txt> <prioridad> | ... | <filename.txt> <prioridad>:", "Ejemplo:", "decompress <texto.txt> <1> | <texto2.txt> <2> | <texto3.txt> <3>", " ", "diff <filename.txt>: mostrara una venta de comparacion entre ", "el archivo comprimido y el archivo original." };
+            String[] strings = { "cd <folder name>: cambiara la ruta actual de la consola a la del folder.", "Ejemplo:", "cd Desktop", " ", "ls: listara los archivos y directorios de la carpeta actual.", " ", "compress <filename.txt> <prioridad> | ... | <filename.txt> <priodidad>:", "comprimira los archivos seleccionados en el orden de prioridad especificado;", "como resultado se tendra un archivo de salida con extension hff.", "Ejemplo:", "compress <texto.hff> <1> | <texto2.hff> <2> |<texto3.hff> <3>", " ", "decompress <filename.txt> <prioridad> | ... | <filename.txt> <prioridad>:", "Ejemplo:", "decompress <texto.txt> <1> | <texto2.txt> <2> | <texto3.txt> <3>", " ", "diff <filename.txt>: mostrara una venta de comparacion entre ", "el archivo comprimido y el archivo original.", " ", "help", "Muestra esta ventana" };
             public int getSize() { return strings.length; }
             public Object getElementAt(int i) { return strings[i]; }
         });
@@ -122,13 +121,6 @@ public class Console extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Testing directories in /home/rick (modify later)");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -141,8 +133,6 @@ public class Console extends javax.swing.JFrame {
                     .addComponent(jt_comando, javax.swing.GroupLayout.DEFAULT_SIZE, 718, Short.MAX_VALUE)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(jb_listaComandos)
-                        .addGap(211, 211, 211)
-                        .addComponent(jButton1)
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
@@ -156,9 +146,7 @@ public class Console extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jt_comando, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jb_listaComandos)
-                    .addComponent(jButton1))
+                .addComponent(jb_listaComandos)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -210,11 +198,10 @@ public class Console extends javax.swing.JFrame {
                         }
                     }
                     for (int i = arrowPosition; i < command.length(); i++) {
-                        if (command.charAt(i)!='>'){
-                            newDirectory.push_back(command.charAt(i));
-
-                        }else{
+                        if (command.charAt(i)=='>'){
                             break;
+                        }else{
+                            newDirectory.push_back(command.charAt(i));
                         }
                     }
                     String Directory = "";
@@ -245,22 +232,37 @@ public class Console extends javax.swing.JFrame {
                         }
                         
                        
+                    }else{
+                        Directory = "";
+                        int contadorDirectorio = 4;
+                        while (command.charAt(contadorDirectorio) != '>'){
+                            Directory+= command.charAt(contadorDirectorio);
+                            contadorDirectorio++;
+                        }
+                        File testFile = new File(directory.getAbsolutePath()+"/"+Directory);
+                        if (testFile.isDirectory() && testFile.exists() && !Directory.equals(".")){
+                            directory = new File(testFile.getAbsolutePath());
+                            refreshList();
+                        }else{
+                            JOptionPane.showMessageDialog(this, "Directorio no válido", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                        
+                        
                     }
                     
                 }else{
                     JOptionPane.showMessageDialog(this, "Directorio no valido", "Error de Dirección", JOptionPane.ERROR_MESSAGE);
                 }
                 
+            }else if (command.equalsIgnoreCase("help")){
+                openDialog(this.jl_listaComandos);
+                this.jt_comando.setText("");
             }else{
                 JOptionPane.showMessageDialog(this, "Comando no existente", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
         
     }//GEN-LAST:event_jt_comandoKeyPressed
-
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-
-    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -362,10 +364,13 @@ public class Console extends javax.swing.JFrame {
         for (File file: directory.listFiles()) {
             if (file.isDirectory()){
                 model.addElement("Directory: "+file.getName());
-            }else if (file.isFile()){
+            }
+        }
+        
+         for (File file: directory.listFiles()) {
+            if (file.isFile()){
                 model.addElement("File: "+file.getName());
             }
-
         }
         this.jl_directorio.setModel(model);
         this.jt_direccion.setText(directory.getAbsolutePath());
@@ -436,7 +441,6 @@ public class Console extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
     private javax.swing.JList jList1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
