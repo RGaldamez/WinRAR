@@ -54,9 +54,9 @@ public class Console extends javax.swing.JFrame {
         jList1 = new javax.swing.JList();
         jd_comparacion = new javax.swing.JDialog();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jt_archivoComprimido = new javax.swing.JTextArea();
+        jt_comprimido = new javax.swing.JTextArea();
         jScrollPane4 = new javax.swing.JScrollPane();
-        jt_archivoOriginal = new javax.swing.JTextArea();
+        jt_original = new javax.swing.JTextArea();
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jt_direccion = new javax.swing.JTextField();
@@ -96,16 +96,18 @@ public class Console extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        jt_archivoComprimido.setColumns(20);
-        jt_archivoComprimido.setRows(5);
-        jScrollPane3.setViewportView(jt_archivoComprimido);
+        jt_comprimido.setEditable(false);
+        jt_comprimido.setColumns(20);
+        jt_comprimido.setRows(5);
+        jScrollPane3.setViewportView(jt_comprimido);
 
-        jt_archivoOriginal.setColumns(20);
-        jt_archivoOriginal.setRows(5);
-        jScrollPane4.setViewportView(jt_archivoOriginal);
+        jt_original.setEditable(false);
+        jt_original.setColumns(20);
+        jt_original.setRows(5);
+        jScrollPane4.setViewportView(jt_original);
 
         jLabel1.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
-        jLabel1.setText("Original (archivo txt)");
+        jLabel1.setText("Original ");
 
         jLabel2.setFont(new java.awt.Font("Dialog", 0, 14)); // NOI18N
         jLabel2.setText("Archivo comprimido ");
@@ -119,9 +121,9 @@ public class Console extends javax.swing.JFrame {
                 .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 335, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
             .addGroup(jd_comparacionLayout.createSequentialGroup()
-                .addGap(125, 125, 125)
+                .addGap(164, 164, 164)
                 .addComponent(jLabel1)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 194, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 235, Short.MAX_VALUE)
                 .addComponent(jLabel2)
                 .addGap(122, 122, 122))
             .addGroup(jd_comparacionLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -213,7 +215,9 @@ public class Console extends javax.swing.JFrame {
     }//GEN-LAST:event_jb_listaComandosActionPerformed
 
     private void jt_comandoKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jt_comandoKeyPressed
-         int key = evt.getKeyCode();
+        jt_comprimido.setText("");
+        jt_original.setText("");
+        int key = evt.getKeyCode();
         String command = jt_comando.getText();
         if (key == KeyEvent.VK_ENTER){
             //JOptionPane.showMessageDialog(this, "Funka", "El evento funka", JOptionPane.INFORMATION_MESSAGE);
@@ -276,7 +280,9 @@ public class Console extends javax.swing.JFrame {
                             contadorPlecas++;
                         }
                         if(contadorPlecas==0){
-                            JOptionPane.showMessageDialog(this, "No hay directorio anterior", "error", JOptionPane.ERROR_MESSAGE);
+                            DefaultListModel model = new DefaultListModel();
+                            model.addElement("No hay direcotio anterior!");
+                            this.jl_directorio.setModel(model);
                         }else{
                             directory = new File(newPath);
                             refreshList();
@@ -295,14 +301,18 @@ public class Console extends javax.swing.JFrame {
                             directory = new File(testFile.getAbsolutePath());
                             refreshList();
                         }else{
-                            JOptionPane.showMessageDialog(this, "Directorio no válido", "Error", JOptionPane.ERROR_MESSAGE);
+                            DefaultListModel model = new DefaultListModel();
+                            model.addElement("Directorio no válido!");
+                            this.jl_directorio.setModel(model);
                         }
                         
                         
                     }
                     
                 }else{
-                    JOptionPane.showMessageDialog(this, "Directorio no valido", "Error de Dirección", JOptionPane.ERROR_MESSAGE);
+                    DefaultListModel model = new DefaultListModel();
+                    model.addElement("Directorio no válido");
+                    this.jl_directorio.setModel(model);
                 }
                 
             }else if (command.equalsIgnoreCase("help")){
@@ -343,10 +353,7 @@ public class Console extends javax.swing.JFrame {
                     model.addElement("Error, archivo no es un .txt");
                     this.jl_directorio.setModel(model);
                 }
-                
-                
-                
-                
+                              
                 /*
                 String operaciones = "";
                 Queue ordenArchivos = new Queue(); 
@@ -403,12 +410,7 @@ public class Console extends javax.swing.JFrame {
                     swap(files,priority,i,menor);
                 }
                 
-                */
-                
-                
-                
-                
-                
+                */          
             }else if (command.charAt(0) == 'd' 
                     && command.charAt(1) == 'i' 
                     && command.charAt(2) == 'f' 
@@ -423,10 +425,44 @@ public class Console extends javax.swing.JFrame {
                         break;
                     }
                 }
+                File fileTemp = new File(directory.getAbsolutePath()+"/"+fileName);
                 if (fileName.charAt(fileName.length()-3) == 'h' 
                         && fileName.charAt(fileName.length()-2) == 'f' 
-                        && fileName.charAt(fileName.length()-1) == 'f'){
-                    
+                        && fileName.charAt(fileName.length()-1) == 'f' 
+                        && fileTemp.exists() && fileTemp.isFile()){
+                    FileReader fr = null;
+                    BufferedReader br = null;
+                    try {
+                        fr = new FileReader(fileTemp);
+                        br = new BufferedReader(fr);
+                        
+                        String linea;
+                        while ((linea = br.readLine()) != null) {
+                            jt_comprimido.append(linea + "\n");
+                        }
+                        
+                        String fileOriginal = "";
+                        
+                        
+                        for (int i = 0; i < fileTemp.getAbsolutePath().length()-3; i++) {
+                            fileOriginal+= fileTemp.getAbsolutePath().charAt(i);
+                        }
+                        fileOriginal+='t';
+                        fileOriginal+='x';
+                        fileOriginal+='t';
+                        
+                        fr = new FileReader(new File(fileOriginal));
+                        br = new BufferedReader(fr);
+                        
+                        while ((linea = br.readLine()) != null) {
+                            jt_original.append(linea + "\n");
+                        }
+                        
+                        
+                    } catch (Exception e) {
+                        System.err.println("Error en el metodo de comparacion");
+                    }
+                    openDialog(this.jd_comparacion);
                     
                     
                     
@@ -437,12 +473,13 @@ public class Console extends javax.swing.JFrame {
                     model.addElement("El archivo no tiene extension hff!");
                     this.jl_directorio.setModel(model);
                 }
-                
-                
-                
+ 
             }else{
-                JOptionPane.showMessageDialog(this, "Comando no existente", "Error", JOptionPane.ERROR_MESSAGE);
+                DefaultListModel model = new DefaultListModel();
+                model.addElement("Comando no existente!");
+                this.jl_directorio.setModel(model);
             }
+            this.jt_comando.setText("");
         }
         
     }//GEN-LAST:event_jt_comandoKeyPressed
@@ -681,10 +718,10 @@ public class Console extends javax.swing.JFrame {
     private javax.swing.JDialog jd_comparacion;
     private javax.swing.JList jl_directorio;
     private javax.swing.JDialog jl_listaComandos;
-    private javax.swing.JTextArea jt_archivoComprimido;
-    private javax.swing.JTextArea jt_archivoOriginal;
     private javax.swing.JTextField jt_comando;
+    private javax.swing.JTextArea jt_comprimido;
     private javax.swing.JTextField jt_direccion;
+    private javax.swing.JTextArea jt_original;
     // End of variables declaration//GEN-END:variables
     private File directory = new File("//home//rick"); 
     private List diccionario = new List();

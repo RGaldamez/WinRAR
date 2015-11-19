@@ -30,7 +30,7 @@ public class Prueba {
     
     public static void main(String[] args) {
         sc = new Scanner(System.in);
-        File file = new File("//home//megarokr//NetBeansProjects//prueba//src//prueba//otronombre.txt");
+        File file = new File("/home/rick/Desktop/copias.txt");
         compress(file);
        
         for (int i = 0; i < diccionario.size(); i++) {

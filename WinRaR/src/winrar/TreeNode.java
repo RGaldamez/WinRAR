@@ -52,7 +52,7 @@ public class TreeNode {
             return false;
         }
         
-        return false;
+        return true;
     }
     
     public boolean hasLeftChild(){
@@ -60,7 +60,7 @@ public class TreeNode {
             return false;
         }
         
-        return false;
+        return true;
     }
     
     public boolean isDone(){
