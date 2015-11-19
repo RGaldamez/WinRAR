@@ -562,9 +562,9 @@ public class Console extends javax.swing.JFrame {
             nueva_file += file.getPath().charAt(i);
         }
         try {
-            FileOutputStream ostream = new FileOutputStream(new File(nueva_file+".hff"));
-            ObjectOutputStream owriter = new ObjectOutputStream(ostream);
-            owriter.writeObject(binary_string);
+            FileWriter ostream = new FileWriter(new File(nueva_file+".hff"));
+            BufferedWriter owriter = new BufferedWriter(ostream);
+            owriter.append(binary_string);
             
             owriter.flush();
             owriter.close();
