@@ -332,9 +332,9 @@ public class Console extends javax.swing.JFrame {
                 buffer += temp;
             }
         } catch (Exception ex) {
-            Logger.getLogger(Console.class.getName()).log(Level.SEVERE, null, ex);
+            ex.printStackTrace();
         }
-
+        
         List huffmen = new List();
         boolean exists;
         for (int i = 0; i < buffer.length(); i++) {
@@ -365,9 +365,9 @@ public class Console extends javax.swing.JFrame {
                     huffmen.remove(i);
                 }
             }
-            BinaryTree arbol = new BinaryTree();
-            arbol = llenarArbol(nodes, arbol);
         }
+        BinaryTree arbol = new BinaryTree();
+        arbol = llenarArbol(nodes, arbol);
 
     }
     
@@ -401,6 +401,8 @@ public class Console extends javax.swing.JFrame {
             TreeNode nodo_temp = new TreeNode(new Huffman(suma));
             nodo_temp.setLeftChild((TreeNode)nodes.elementAt(0).getValue());
             nodo_temp.setRightChild((TreeNode)nodes.elementAt(1).getValue());
+            nodes.remove(0);
+            nodes.remove(0);
 
             boolean menor = false;
             for (int i = 0;i < nodes.size() ;++i ) {
